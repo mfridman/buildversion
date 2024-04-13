@@ -5,14 +5,32 @@ CLI tools.
 
 Works with Go modules.
 
-```
-go install github.com/mfridman/buildversion/cmd/example@latest
-example --version
-v1.2.3
-```
-
 It is intended to be used in CLI tools where you want to display the version string with something
 like `mytool version` or `mytool --version`.
+
+## No tags (pseudo-version)
+
+```
+$ go install github.com/mfridman/buildversion/cmd/example@latest
+example --version
+v0.0.0-20240413170022-fe4dc7cb6b9d
+```
+
+## Tagged release
+
+```
+$ go install github.com/mfridman/buildversion/cmd/example@latests
+example --version
+v0.1.0
+```
+
+## Building from source
+
+```
+go build -o bin/example ./cmd/example
+./bin/example --version
+devel (fe4dc7cb6b9d, dirty)
+```
 
 ## But why?
 
@@ -39,8 +57,14 @@ non-empty string.**
 Note, vcs info not stamped when built listing .go files directly. For example,
 
 ```
+
 go build main.go
 go build .
+
 ```
 
 For more information, see https://github.com/golang/go/issues/51279
+
+```
+
+```
