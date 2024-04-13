@@ -1,17 +1,29 @@
 # buildversion
 
-Very simple package to generate an opinionated release version string for Go applications, such as
-CLI tools.
+A simple package to generate an opinionated release version string for Go applications.
 
 Works with Go modules.
 
-It is intended to be used in CLI tools where you want to display the version string with something
-like `mytool version` or `mytool --version`.
+Intended to be used in CLI tools where you want to display the version string with something like
+`mytool version` or `mytool --version`.
+
+```go
+// These may be set at build time with -ldflags "-X 'main.version=1.2.3'"
+var version string
+
+fmt.Fprintln(os.Stdout, buildversion.New(version))
+
+// or, if you don't have a version string
+fmt.Fprintln(os.Stdout, buildversion.New(""))
+```
+
+## Example
 
 ### No tags (pseudo-version)
 
 ```
 $ go install github.com/mfridman/buildversion/cmd/example@latest
+
 example --version
 v0.0.0-20240413170022-fe4dc7cb6b9d
 ```
@@ -20,6 +32,7 @@ v0.0.0-20240413170022-fe4dc7cb6b9d
 
 ```
 $ go install github.com/mfridman/buildversion/cmd/example@latests
+
 example --version
 v0.1.0
 ```
@@ -28,6 +41,7 @@ v0.1.0
 
 ```
 go build -o bin/example ./cmd/example
+
 ./bin/example --version
 devel (fe4dc7cb6b9d, dirty)
 ```
@@ -37,12 +51,13 @@ devel (fe4dc7cb6b9d, dirty)
 I've ended up copying this simple function across a few projects, so I decided to make it a package.
 
 The `New` function returns the version string from the
-[BuildInfo](https://pkg.go.dev/runtime/debug#BuildInfo), if available. **It will always return a
-non-empty string.**
+[BuildInfo](https://pkg.go.dev/runtime/debug#BuildInfo), if available.
+
+**`New` will always return a non-empty string.**
 
 - If the version arg is not empty, it returns the string as is. Useful for setting the version at
   build time. For example, `-ldflags "-X 'main.version=1.2.3'"` and pass the main.version string to
-  the `buildversion.New()` function.
+  the `New(main.version)` function.
 
 - If the build info is not available, it returns `devel`. This can happen if the binary was built
   without module support, if the Go version is too old or `-buildvcs=false` was set.
