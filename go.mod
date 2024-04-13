@@ -1,3 +1,3 @@
 module github.com/mfridman/buildversion
 
-go 1.22.1
+go 1.20
