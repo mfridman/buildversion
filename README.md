@@ -8,13 +8,14 @@ Intended to be used in CLI tools where you want to display the version string wi
 `mytool version` or `mytool --version`.
 
 ```go
-// These may be set at build time with -ldflags "-X 'main.version=1.2.3'"
-var version string
-
-fmt.Fprintln(os.Stdout, buildversion.New(version))
-
-// or, if you don't have a version string
-fmt.Fprintln(os.Stdout, buildversion.New(""))
+func main() {
+  versionPtr = flag.Bool("version", false, "")
+  flag.Parse()
+  if *versionPtr {
+    fmt.Fprintln(os.Stdout, buildversion.New(""))
+    return
+  }
+}
 ```
 
 ## Example
