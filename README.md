@@ -2,21 +2,45 @@
 
 A simple package to generate an opinionated release version string for Go applications.
 
-Works with Go modules.
+It is compatible with Go modules.
 
-Intended to be used in CLI tools where you want to display the version string with something like
-`mytool version` or `mytool --version`.
+Ideal in CLI tools when you want to display the version string using commands such as `mytool
+version` or `mytool --version`.
+
+## Usage
+
+Here's a simple example of how you can use this package in your application. Now when `go build` or
+`go install` is run, the version string will be stamped into the binary.
 
 ```go
+package main
+
+import (
+	"flag"
+	"fmt"
+	"os"
+
+	"github.com/mfridman/buildversion"
+)
+
 func main() {
-  versionPtr = flag.Bool("version", false, "")
-  flag.Parse()
-  if *versionPtr {
-    fmt.Fprintln(os.Stdout, buildversion.New(""))
-    return
-  }
+	versionPtr := flag.Bool("version", false, "")
+	flag.Parse()
+	if *versionPtr {
+		fmt.Fprintln(os.Stdout, buildversion.New())
+		return
+	}
 }
 ```
+
+As a convenience, this package also provides a global variable that can be set at build time with:
+
+```
+-ldflags "-X github.com/mfridman/buildversion.Version=v1.2.3"
+```
+
+This can be useful when building a release binary with tools like
+[goreleaser](https://goreleaser.com/).
 
 ## Example
 
@@ -41,7 +65,7 @@ v0.1.0
 ### Building from source
 
 ```
-go build -o bin/example ./cmd/example
+$ go build -o bin/example ./cmd/example
 
 ./bin/example --version
 devel (fe4dc7cb6b9d, dirty)
@@ -51,14 +75,10 @@ devel (fe4dc7cb6b9d, dirty)
 
 I've ended up copying this simple function across a few projects, so I decided to make it a package.
 
-The `New` function returns the version string from the
+The `New()` function returns the version string from the
 [BuildInfo](https://pkg.go.dev/runtime/debug#BuildInfo), if available.
 
-**`New` will always return a non-empty string.**
-
-- If the version arg is not empty, it returns the string as is. Useful for setting the version at
-  build time. For example, `-ldflags "-X 'main.version=1.2.3'"` and pass the main.version string to
-  the `New(main.version)` function.
+**`New()` will always return a non-empty string.**
 
 - If the build info is not available, it returns `devel`. This can happen if the binary was built
   without module support, if the Go version is too old or `-buildvcs=false` was set.
