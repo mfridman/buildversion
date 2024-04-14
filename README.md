@@ -1,16 +1,13 @@
 # buildversion
 
-A simple package to generate an opinionated release version string for Go applications.
+A simple package to generate a release version for Go applications. Compatible with Go modules.
 
-It is compatible with Go modules.
-
-Ideal in CLI tools when you want to display the version string using commands such as `mytool
-version` or `mytool --version`.
+Ideal in CLI tools when you want to display the version using commands such as `mytool --version`.
 
 ## Usage
 
 Here's a simple example of how you can use this package in your application. Now when `go build` or
-`go install` is run, the version string will be stamped into the binary.
+`go install` is run, the version will be stamped into the binary in a consistent way.
 
 ```go
 package main
@@ -33,14 +30,29 @@ func main() {
 }
 ```
 
-As a convenience, this package also provides a global variable that can be set at build time with:
+### Linking the version at build time
 
-```
--ldflags "-X github.com/mfridman/buildversion.Version=v1.2.3"
-```
-
-This can be useful when building a release binary with tools like
+The reason `New()` takes a variadic `string` argument is to allow you to pass in the version at
+build time. This can be useful when building a release binary with tools like
 [goreleaser](https://goreleaser.com/).
+
+Define a version variable in your main package:
+
+```go
+package main
+
+var version string
+
+func main() {
+	buildversion.New(version)
+}
+```
+
+Then, when building the binary, pass in the version using the `-ldflags` flag:
+
+```
+go build -ldflags "-X 'main.version=v1.2.3'" -o bin/example ./cmd/example
+```
 
 ## Example
 

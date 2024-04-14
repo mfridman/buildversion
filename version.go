@@ -6,13 +6,16 @@ import (
 	"time"
 )
 
-// As a convenience, this package provides a global variable that can be set at build time with
-// -ldflags "-X github.com/mfridman/buildversion.Version=v1.2.3". This makes it easy to copy/paste
-// across different projects.
-var Version string
-
 // New returns a version string from the build info, if available. It will always return a non-empty
-// string.
+// string, see below for details.
+//
+// A version string can be provided as an argument. If provided, only the first argument is used and
+// it is returned as is. This is useful for setting the version string at build time with the
+// -ldflags flag. For example:
+//
+//	go build -ldflags "-X 'main.version=1.2.3'" ./cmd/example
+//
+// The version string is constructed as follows:
 //
 //   - If the build info is not available, it returns "devel". This can happen if the binary was
 //     built without module support, if the Go version is too old or -buildvcs=false was set.
@@ -29,9 +32,9 @@ var Version string
 //   - `go build .`
 //
 // For more information, see https://github.com/golang/go/issues/51279
-func New() string {
-	if Version != "" {
-		return strings.TrimSpace(Version)
+func New(version ...string) string {
+	if len(version) > 0 && version[0] != "" {
+		return strings.TrimSpace(version[0])
 	}
 	const defaultVersion = "devel"
 
@@ -73,5 +76,5 @@ func New() string {
 		b.WriteString(", dirty")
 	}
 	b.WriteString(")")
-	return strings.TrimSpace(b.String())
+	return b.String()
 }
