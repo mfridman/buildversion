@@ -51,7 +51,7 @@ func main() {
 Then, when building the binary, pass in the version using the `-ldflags` flag:
 
 ```
-go build -ldflags "-X 'main.version=v1.2.3'" -o bin/example ./cmd/example
+go build -ldflags "-X main.version=v1.2.3" -o bin/example ./cmd/example
 ```
 
 ## Example

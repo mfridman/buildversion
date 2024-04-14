@@ -13,7 +13,7 @@ import (
 // it is returned as is. This is useful for setting the version string at build time with the
 // -ldflags flag. For example:
 //
-//	go build -ldflags "-X 'main.version=1.2.3'" ./cmd/example
+//	go build -ldflags "-X main.version=1.2.3" ./cmd/example
 //
 // The version string is constructed as follows:
 //
