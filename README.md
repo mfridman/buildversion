@@ -68,7 +68,7 @@ v0.0.0-20240413170022-fe4dc7cb6b9d
 ### Tagged release
 
 ```
-$ go install github.com/mfridman/buildversion/cmd/example@latests
+$ go install github.com/mfridman/buildversion/cmd/example@latest
 
 example --version
 v0.1.0
