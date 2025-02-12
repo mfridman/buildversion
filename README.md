@@ -1,5 +1,16 @@
 # buildversion
 
+> [!WANRING]
+>
+> This package is no longer required as of Go 1.24. The `runtime/debug` package now provides the
+> `BuildInfo` struct, which can be used to extract the version information. For more information,
+> see https://github.com/golang/go/issues/50603
+>
+> _The go build command now sets the main module’s version in the compiled binary based on the
+> version control system tag and/or commit. A +dirty suffix will be appended if there are
+> uncommitted changes. Use the `-buildvcs=false` flag to omit version control information from the
+> binary._
+
 A simple package to generate a release version for Go applications. Compatible with Go modules.
 
 Ideal in CLI tools when you want to display the version using commands such as `mytool --version`.
