@@ -1,10 +1,9 @@
 # buildversion
 
-> [!WANRING]
->
+> [!WARNING]
 > This package is no longer required as of Go 1.24. The `runtime/debug` package now provides the
 > `BuildInfo` struct, which can be used to extract the version information. For more information,
-> see https://github.com/golang/go/issues/50603
+> see https://github.com/golang/go/issues/50603 or the [Go 1.24 release notes](https://go.dev/doc/go1.24#go-command).
 >
 > _The go build command now sets the main module’s version in the compiled binary based on the
 > version control system tag and/or commit. A +dirty suffix will be appended if there are
